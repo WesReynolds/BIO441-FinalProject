@@ -27,5 +27,6 @@ def main():
         line = dataFp.readline()
 
 
+# Driver routine for main program
 if __name__ == "__main__":
     main()

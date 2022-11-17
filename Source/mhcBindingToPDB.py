@@ -1,32 +1,39 @@
-THRESHOLD = 10
-dataSourceFilepath = "../ProgramData/large_example.csv"
-epitope = "LFHIFDGDNEI"
+import sys
+import os
 
 # This method reads a file that contains the output of the IEDB MHC I program.
 # 
 # From this file, the alleles that have an affinity score within a certain threshold
 # are printed to stdout in a PDB format.
 
-
-def main():
-    dataFp = open(dataSourceFilepath, "r")
-    line = dataFp.readline()
-    line = dataFp.readline()
+def printPDBForEpitope(filepath, threshold):
+    epitope = filepath.split("/")[-1].split(".")[0]
+    inFP = open(filepath, "r")
+    line = inFP.readline()
+    line = inFP.readline()
 
     first = True
     while line != "":
         tokens = line.split(",")
         allele = tokens[0]
         percentile = float(tokens[-1])
-        if percentile < THRESHOLD:
+        if percentile <= threshold:
             if first:
-                print(epitope + "\t" + allele, end="")
+                print("%s\t%s" % (epitope, allele), end="")
                 first = False
             else:
-                print("," + allele, end="")
-        line = dataFp.readline()
+                print(",%s" % (allele), end="")
+        line = inFP.readline()
+    print()
+
+
+def main(argv):
+    bindingDataDir = argv[1]
+    threshold = float(argv[2])
+    for filename in os.listdir(bindingDataDir):
+        printPDBForEpitope(bindingDataDir+filename, threshold)
 
 
 # Driver routine for main program
 if __name__ == "__main__":
-    main()
+    main(sys.argv)

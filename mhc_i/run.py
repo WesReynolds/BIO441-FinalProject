@@ -4,7 +4,7 @@ import pandas as pd
 from Bio import SeqIO
 import logging
 
-OUTPUT_DIR = "./data_output/"
+OUTPUT_DIR = "../ProgramData/BindingData/"
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
@@ -31,7 +31,7 @@ def prepare_requests(args):
     return headers, data_ls
 
 def run():
-    logging.basicConfig(filename='mch_i.log', encoding='utf-8', level=logging.ERROR, 
+    logging.basicConfig(filename=f"{args['output_dir']}mch_i.log", encoding='utf-8', level=logging.ERROR, 
         format='%(levelname)s: %(asctime)s %(message)s:', datefmt='%m/%d/%Y %H:%M:%S')
     args = parse_arguments()
     headers, data_ls = prepare_requests(args)

@@ -16,8 +16,9 @@ def read_input_file(filename):
     allele_tuple_list = []
     try:
         for input_row in open(filename).readlines():
-            epitope_list.append(input_row.strip().split()[0])
-            allele_tuple_list.append(tuple(input_row.strip().split()[1].split(",")))
+            if len(input_row.strip().split()) > 0:
+                epitope_list.append(input_row.strip().split()[0])
+                allele_tuple_list.append(tuple(input_row.strip().split()[1].split(",")))
     except (IOError, TypeError):
         raise IOError("Oops! input file error.")
     return epitope_list, allele_tuple_list

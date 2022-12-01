@@ -9,7 +9,7 @@ OUTPUT_DIR = "../ProgramData/BindingData/"
 def parse_arguments():
     parser = argparse.ArgumentParser()
     parser.add_argument("epitope", help="fasta file containing epitopes")
-    parser.add_argument("-alleles", default="ref_alleles.csv", metavar="<ref_alleles.csv>", required=False)
+    parser.add_argument("-alleles", default="../mhc_i/ref_alleles.csv", metavar="<ref_alleles.csv>", required=False)
     parser.add_argument("-output_dir", default=OUTPUT_DIR, metavar="<data_output/>", required=False)
     return vars(parser.parse_args())
 
@@ -30,10 +30,9 @@ def prepare_requests(args):
 
     return headers, data_ls
 
-def run():
+def run(args : dict):
     logging.basicConfig(filename=f"{args['output_dir']}mch_i.log", encoding='utf-8', level=logging.ERROR, 
         format='%(levelname)s: %(asctime)s %(message)s:', datefmt='%m/%d/%Y %H:%M:%S')
-    args = parse_arguments()
     headers, data_ls = prepare_requests(args)
 
     for epi_id, data in data_ls:
@@ -48,4 +47,4 @@ def run():
                 f_out.write(str_line+"\n")
 
 if __name__ == "__main__":
-    run()
+    run(parse_arguments())
